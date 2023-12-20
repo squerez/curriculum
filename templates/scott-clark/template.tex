@@ -1,0 +1,271 @@
+% (c) 2002 Matthew Boedicker <mboedick@mboedick.org> (original author) http://mboedick.org
+% (c) 2003-2007 David J. Grant <davidgrant-at-gmail.com> http://www.davidgrant.ca
+% (c) 2008 Nathaniel Johnston <nathaniel@nathanieljohnston.com> http://www.nathanieljohnston.com
+% (c) 2011 Scott Clark <sc932@cornell.edu> http://cam.cornell.edu/~sc932
+%
+
+%This work is licensed under the Creative Commons Attribution-Noncommercial-Share Alike 2.5 License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/2.5/ or send a letter to Creative Commons, 543 Howard Street, 5th Floor, San Francisco, California, 94105, USA.
+
+\documentclass[letterpaper,11pt]{article} \newlength{\outerbordwidth} \pagestyle{empty}
+\raggedbottom
+\raggedright
+\usepackage[svgnames]{xcolor}
+\usepackage{framed}
+\usepackage{tocloft}
+\usepackage{etoolbox}
+\usepackage{tikz}
+\robustify\cftdotfill
+
+%-----------------------------------------------------------
+%Edit these values as you see fit
+\setlength{\outerbordwidth}{3pt}  % Width of border outside of title bars
+\definecolor{shadecolor}{gray}{0.75}  % Outer background color of title bars (0 = black, 1 = white)
+\definecolor{shadecolorB}{gray}{0.93}  % Inner background color of title bars
+
+%-----------------------------------------------------------
+%Margin setup
+\setlength{\evensidemargin}{-0.25in}
+\setlength{\headheight}{-0.25in}
+\setlength{\headsep}{0in}
+\setlength{\oddsidemargin}{-0.25in}
+\setlength{\paperheight}{11in}
+\setlength{\paperwidth}{8.5in}
+\setlength{\tabcolsep}{0in}
+\setlength{\textheight}{9.75in}
+\setlength{\textwidth}{7in}
+\setlength{\topmargin}{-0.3in}
+\setlength{\topskip}{0in}
+\setlength{\voffset}{0.1in}
+
+%-----------------------------------------------------------
+%Custom commands
+\newcommand{\resitem}[1]{\item #1 \vspace{-2pt}}
+\newcommand{\resheading}[1]{\vspace{8pt}
+  \parbox{\textwidth}{\setlength{\FrameSep}{\outerbordwidth}
+    \begin{shaded}
+
+\setlength{\fboxsep}{0pt}\framebox[\textwidth][l]{\setlength{\fboxsep}{4pt}\fcolorbox{shadecolorB}{shadecolorB}{\textbf{\sffamily{\mbox{~}\makebox[6.762in][l]{\large #1} \vphantom{p\^{E}}}}}}
+    \end{shaded}
+  }\vspace{-5pt}
+}
+
+%-----------------------------------------------------------
+%Skills bar chart 
+\newcommand{\ressubheading}[4]{
+\begin{tabular*}{6.5in}{l@{\cftdotfill{\cftsecdotsep}\extracolsep{\fill}}r}
+		\textbf{#1} & #2 \\
+		\textit{#3} & \textit{#4} \\
+\end{tabular*}\vspace{-6pt}}
+
+\definecolor{frontColor}{rgb}{0.22,0.45,0.70}% light blue
+\definecolor{backColor}{RGB}{200,200,200}% grey
+\newcommand{\gradelong}[6]{%
+    \pgfmathtruncatemacro\floored{#1}%
+    \pgfmathsetmacro\diff{#1-\floored}%
+    \newdimen\diffDim%
+    \diffDim = \diff pt%
+    \newdimen\numPointsDim
+    \numPointsDim = #1 pt
+    \newdimen\maxPointsDim%
+    \maxPointsDim = #2 pt%
+    \begin{tikzpicture}
+        \foreach \x in {1, ..., #2}{
+            \ifnum \x > \floored \relax%
+                \def\fillCol{#6}%
+            \else%
+                \def\fillCol{#5}%
+            \fi%
+            \fill[\fillCol] (#3*\x, 0) circle (#4);
+        }%
+        \ifdim \diffDim > 0 pt \relax%
+            \ifdim \numPointsDim > \maxPointsDim \relax%
+            \else%
+                \pgfmathsetmacro\pos{#3*(\floored+1)}%
+                \begin{scope}[xshift=\pos]
+                    \clip (-#4,-#4) rectangle ++(#4*2*\diff,#4*2);
+                    \fill[#5] (0, 0) circle (#4);
+                \end{scope}
+            \fi%
+        \else%
+        \fi%
+    \end{tikzpicture}%
+}
+
+\newcommand{\grade}[1]{%
+    \gradelong%
+    {#1}% grade as floating point value
+    {5}% max number of points
+    {9pt}% spacing between points
+    {3pt}% radius of point
+    {frontColor}% foreground color
+    {backColor}% background color
+}
+%-----------------------------------------------------------
+\begin{document}
+
+\begin{tabular*}{7in}{l@{\extracolsep{\fill}}r}
+
+\textbf{{\Large João Santos}} & \textbf{\today} \\
+\texttt{jpsantos93@hotmail.com} & \texttt{https://www.linkedin.com/in/joao-pedro-fm-santos} \\
+\texttt{@github.com/squerez} & Looking for new job opportunities.
+
+\end{tabular*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\resheading{Education}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+
+\item
+	\ressubheading{Universidade Nova de Lisboa}{Lisbon, PT}{BA/BS. Geography and Regional Planning}{2011 - 2014}
+	\begin{itemize}
+		\resitem{Degree in Geography and Regional Planning, with a specialization in Geographic Information Systems.}
+	\end{itemize}
+
+\item
+	\ressubheading{ISCTE - Instituto Universitário de Lisboa}{Lisbon, PT}{PGDip. Computer Science and Business}{2015 - 2017}
+	\begin{itemize}
+    \resitem{Post-graduate degree in Computer Science and Business, only missing the final project to complete the degree.}
+	\end{itemize}
+
+\item
+    \ressubheading{Databricks Certified Associate Developer for Spark 3.0}{Lisbon, PT}{CERT, Databricks}{2020}
+	\begin{itemize}
+    \resitem{Certification for Apache Spark 3.0, including Spark SQL, DataFrames, Datasets, Structured Streaming, MLlib, and GraphX. \par Issued by Databricks.}
+	\end{itemize}
+
+\item
+    \ressubheading{Azure Data Engineer Associate}{Lisbon, PT}{CERT, Microsoft}{2021}
+	\begin{itemize}
+    \resitem{Certification for Azure Data Engineer Associate, including Azure Data Factory, Azure Data Lake, Azure Synapse Analytics, Azure Databricks, Azure Stream Analytics, Azure Cosmos DB, Azure SQL Database, Azure SQL Managed Instance, Azure Database for PostgreSQL, Azure Database for MySQL, and Azure Synapse Analytics. \par Issued by Microsoft.}
+	\end{itemize}
+
+\item
+    \ressubheading{Terraform Associate}{Lisbon, PT}{CERT, Terraform}{2021}
+	\begin{itemize}
+    \resitem{Certification for Terraform Associate, including Terraform CLI, Terraform Workflow (Write, Plan, and Create), Provision Infrastructure, Manage Infrastructure, Configure Infrastructure, Secure Terraform Automation, and Understand Terraform Cloud and Enterprise Capabilities. \par Issued by Terraform.}
+	\end{itemize}
+
+\item
+    \ressubheading{Databricks Certified Data Engineer Associate}{Lisbon, PT}{CERT, Databricks}{2022}
+	\begin{itemize}
+    \resitem{Certification for Databricks Certified Data Engineer Associate, including Data Engineering Fundamentals, Data Engineering on Azure Databricks, and Data Engineering on AWS Databricks. \par Issued by Databricks.}
+	\end{itemize}
+
+\item
+    \ressubheading{Certified Kubernetes Application Developer}{Lisbon, PT}{CERT, CNCF}{2023}
+	\begin{itemize}
+    \resitem{Certification for Certified Kubernetes Application Developer, including Core Concepts, Configuration, Multi-Container Pods, Observability, Pod Design, Services \& Networking, State Persistence, and Scheduling \& Performance. \par Issued by the CNCF and the Linux Foundation.}
+	\end{itemize}
+
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\resheading{Work Experience}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+
+\item
+	\ressubheading{Mercedes-Benz.io}{Lisbon, PT}{Data Engineer}{March 2022 - current}
+	\begin{itemize}
+      \resitem{Setting up, managing and fixing continuous integration and deployment pipelines for the majority of the project repositories, ensuring that all applications are secure and running.}
+      \resitem{Deploying and managing applications on internal Kubernetes clusters, such as Airflow, GTM, and others.}
+      \resitem{Migrating the current Azure Data Factory orchestration engine to custom Airflow instance, including linked service connections, pipelines, and other objects.}
+      \resitem{Developing and maintaining custom Airflow operators and DAGs for the orchestration of the data pipelines.}
+      \resitem{Building and maintaining data pipelines using Azure Data Factory, Azure Databricks, and Azure DataLake Gen2.}
+      \resitem{Optimizing and maintaining the platform's health, including secrets management, security patches, building monitoring dashboards, and others.}
+	\end{itemize}
+
+\item
+    \ressubheading{United Nations (UNICC)}{Lisbon, PT}{Data Engineer}{December 2021 - March 2022}
+	\begin{itemize}
+            \resitem{Support project in the deployment of changes to the infrastructure with Terraform, including Azure VideoIndexer, Azure Key Vault, Azure Data Lake, and others. This includes the creation of new resources, as well as the modification of existing ones. Ultimately, I left this role since I was not performing the job role I was originally hired for. The job role I applied for was as a data engineer, building a data platform from ground-up in a R\&D project.}
+	\end{itemize}
+
+\item
+    \ressubheading{Bild Analytics (now Ascent)}{Lisbon, PT}{Data Engineer}{August 2020 - December 2021}
+	\begin{itemize}
+      \resitem{Worked as a consultant on several client projects, such as:}
+        \begin{itemize}
+                \resitem{\textbf{Kantar - Brand Pulse}: engineered an end-to-end ingestion platform that supported different operating modes for each type of input data. The platform was fully controlled by operators via PowerShell scripts, which allowed customers to control different pipelines - each pipeline would extract-transform-load a different source or use case. Internally, scripts would call a main Data Factory pipeline which would compute the data sources on Azure Databricks. The platform had a full featured CI/CD deployment (on different environments such as DEV/TEST/PROD, each with a custom approval process) using ARM templating in conjuction with environment variables and full unit-integration testing using the unittest python module/framework.}
+                \resitem{\textbf{DS Smith - Data Platform}: engineered an end-to-end engine that was fully metadata driven. The engine was controlled using metadata in the form of JSON files, that could take two forms: a form of mainfile (this file had pointers to granular processes) or granular files (which contained the steps of a given process). The metadata-driven was controlled via ADF, which also would generate steps based off a configuration files, along with their connection strings and other objects. The infrastructure was deployed via CI/CD using Terraform. Overall, over 80 different data sources were ingested with this custom metadata driven framework, built with Python.}
+                \resitem{\textbf{New Signature - Research and Development}: development of a early-stages MLOps POC, presented on the Spark Summit 2021; development of a generic Quality-Checks framework, extensible to any Python project; development of common DevOps IAC boilerplate code using Terraform; development of disposable interview labs using Azure Labs and Terraform for external recruitmnet challenges.}
+        \end{itemize}
+	\end{itemize}
+
+
+\item
+    \ressubheading{Aubay}{Lisbon, PT}{Data Engineer}{November 2019 - August 2020}
+	\begin{itemize}
+            \resitem{Tasked with the development of a end-to-end data platform for \textbf{UNICRE}, a credit institution in Portugal looking to replace their old engine built with COBOL called CARDPACK. The platform (now live and in-production) was designed to accurately calculate client's credit interests and taxes, with lower execution times and higher resiliency to failures. The project required high collaboration with product analysts and product owners to correctly implement the intricacies of interest time-based calculations and to avoid failing any legal requirements.  The project was built with the classic DE stack on Azure, where Azure Data Factory orchestrated each data-source pipeline, which would then compute on Azure Databricks. Results were stored in Azure Data Lake Gen2 and some reports were sent via E-mail to analysts and CARDPACK for validation of results. As a requirement, no schedules could be present on Azure Data Factory, instead we used the company's internal orchestrator called Control-M. At the time, Control-M did not support Azure Data Factory, so, I was tackled with building a custom integration to ADF that allowed to schedule ADF pipeline runs to the internal schedules of the tool. Due to client technical restrictions, the integration had to be built with PowerShell. The first-phase of the project, which I was part of, only had the engine built and unit-testing, so at this stage no CI/CD was implemented. This project constituted my first go-live product.}
+	\end{itemize}
+
+\item
+    \ressubheading{Boost IT}{Lisbon, PT}{Junior Data Engineer}{September 2018 - November 2019}
+	\begin{itemize}
+      \resitem{First experience in the Data Engineering field. Worked as a consultant on a couple client projects, such as:}
+        \begin{itemize}
+                \resitem{\textbf{Carlsberg - Carlsberg Analytics Platform}: Contributed to building and desiging an highly scalable data engine using the Azure stack. Part of my contributions there include:} 
+                    \begin{itemize}
+                            \resitem{Implement data acquisition pipelines for different source systems (SAP ERP, internal API's, Flat files, and others.}
+                            \resitem{Developing generic cleaning and transformation classes using PySpark on Azure Databricks.}
+                            \resitem{Building a generic cube model generator PoC using C\# and PowerShell.}
+                            \resitem{Creating and maintaining data models on Azure SQL Data Warehouse.}
+                            \resitem{Integrating data science algorithms outputs to the Carlsberg Analytics Platform (CAP) using Azure Data Lake Gen1.}
+                    \end{itemize}
+                \resitem{\textbf{Bi4All - Various clients}: maintained and developed new features for the following clients:}
+                    \begin{itemize}
+                            \resitem{\textbf{MetLife}: long-running product for the insurance company MetLife. The product was built using the HADOOP stack of tools, mainly Yarn, Ambari, HDFS, Aginity, Ranger and Spark. In the project, I was given the role of maintaner, and as such I had to daily oversee the extraction and transformation of flatfiles sent over SFTP using Oozie workflows and generate system integration tests to validate data recieved during the various stages of the ETL process.}
+                            \resitem{\textbf{Antas da Cunha Ecije}: contributed to the data-platform PoC for the legal company called Antas da Cunha Ecije. The PoC used partly the DE stack in Azure such as Azure Data Factory as the orchestration engine, Azure Data Lake Gen2 as the storage layer, Azure SQL Server as the database where all data was stored and finally PowerShell as the temporary IAC tool. The project was pulling flatfiles from a RDC (remote desktop connection) into the storage layer, then process the files on arrival via ADF triggers and data flows and finally store the data on the database. In this project, due to cost restrictions, I had to build a log processing system with ADF and SQL server, using stored procedures and custom API endpoints.}
+                    \end{itemize}
+        \end{itemize}
+	\end{itemize}
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\resheading{Skills}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tabular}{ll}
+    API's: & \grade{3} \\
+    AWS cloud: & \grade{2} \\
+    Airflow: & \grade{2.5} \\
+    Apache Spark (PySpark): & \grade{4} \\
+    Azure DevOps: & \grade{4} \\
+    Azure cloud: & \grade{4} \\
+    Bash: & \grade{4} \\
+    Batch processing: & \grade{4} \\
+    CI/CD pipelines: & \grade{4} \\
+    Data warehousing and modelling: & \grade{2.5} \\
+    Databricks: & \grade{3.5} \\
+    Docker: & \grade{3.5} \\
+    ETL pipelines: & \grade{4} \\
+    GCP cloud: & \grade{1} \\
+    Git: & \grade{4} \\
+    Go: & \grade{2.5} \\
+    Json: & \grade{4} \\
+    Kubernetes: & \grade{4} \\
+    Linux: & \grade{3} \\
+    PowerShell: & \grade{3.5} \\
+    Python: & \grade{4.5} \\
+    Rust: & \grade{1} \\
+    SQL: & \grade{2.5} \\
+    Stream processing: & \grade{1} \\
+    Terraform: & \grade4{} \\
+    Typescript: & \grade{1.5} \\
+    Vim: & \grade{4} \\
+    Windows: & \grade{3.5} \\
+    YAML& \grade{4} \\
+\end{tabular}
+
+\end{document}
